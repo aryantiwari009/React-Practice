@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { Link } from "react-router-dom";
+import { MovieContext } from "./MovieContext";
 
 function SearchPage() {
-  const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const {
+    movies,
+    setMovies,
+    query,
+    setQuery,
+    loading,
+    setLoading,
+    error,
+    setError,
+  } = useContext(MovieContext);
 
   async function handleSearch(query) {
     setLoading(true);
@@ -40,7 +47,6 @@ function SearchPage() {
       {/* Hero */}
       <section className="max-w-7xl mx-auto px-6 pt-20">
         <div className="text-center">
-
           <h1 className="mt-8 text-6xl md:text-7xl font-black leading-tight">
             Discover
             <span className="block bg-linear-to-r from-red-500 via-orange-400 to-yellow-300 bg-clip-text text-transparent">
