@@ -1,4 +1,5 @@
 import { useState, useReducer } from "react";
+import { ArrowRight, Trash2 } from "lucide-react";
 
 const initialState = {
   todo: [{ id: 1, text: "Learn useReducer" }],
@@ -21,6 +22,17 @@ function reducer(state, action) {
       return {
         ...state,
         [column]: state[column].filter((card) => card.id !== cardId),
+      };
+    }
+
+    case "MOVE_CARD": {
+      const { cardId, fromColumn, toColumn } = action.payload;
+      const card = state[fromColumn].find((c) => c.id === cardId);
+
+      return {
+        ...state,
+        [fromColumn]: state[fromColumn].filter((c) => c.id !== cardId),
+        [toColumn]: [...state[toColumn], card],
       };
     }
     default:
@@ -164,20 +176,38 @@ function App() {
                   <div className="flex justify-between">
                     <h3 className="font-semibold">{card.text}</h3>
 
-                    <button
-                      onClick={() =>
-                        dispatch({
-                          type: "DELETE_CARD",
-                          payload: {
-                            column: "todo",
-                            cardId: card.id,
-                          },
-                        })
-                      }
-                      className="opacity-0 group-hover:opacity-100 h-8 w-8 rounded-lg bg-red-500 hover:bg-red-600 transition"
-                    >
-                      ✕
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() =>
+                          dispatch({
+                            type: "MOVE_CARD",
+                            payload: {
+                              cardId: card.id,
+                              fromColumn: "todo",
+                              toColumn: "inProgress",
+                            },
+                          })
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500 text-white transition hover:bg-sky-600"
+                      >
+                        <ArrowRight size={16} strokeWidth={2.5} />
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          dispatch({
+                            type: "DELETE_CARD",
+                            payload: {
+                              column: "todo",
+                              cardId: card.id,
+                            },
+                          })
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-500 text-white transition hover:bg-red-600"
+                      >
+                        <Trash2 size={16} strokeWidth={2.5} />
+                      </button>
+                    </div>
                   </div>
 
                   <div className="mt-6 flex justify-between items-center">
@@ -215,20 +245,38 @@ function App() {
                   <div className="flex justify-between">
                     <h3>{card.text}</h3>
 
-                    <button
-                      onClick={() =>
-                        dispatch({
-                          type: "DELETE_CARD",
-                          payload: {
-                            column: "inProgress",
-                            cardId: card.id,
-                          },
-                        })
-                      }
-                      className="opacity-0 group-hover:opacity-100 h-8 w-8 rounded-lg bg-red-500 hover:bg-red-600 transition"
-                    >
-                      ✕
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() =>
+                          dispatch({
+                            type: "MOVE_CARD",
+                            payload: {
+                              cardId: card.id,
+                              fromColumn: "inProgress",
+                              toColumn: "done",
+                            },
+                          })
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500 text-white transition hover:bg-sky-600"
+                      >
+                        <ArrowRight size={16} strokeWidth={2.5} />
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          dispatch({
+                            type: "DELETE_CARD",
+                            payload: {
+                              column: "inProgress",
+                              cardId: card.id,
+                            },
+                          })
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-500 text-white transition hover:bg-red-600"
+                      >
+                        <Trash2 size={16} strokeWidth={2.5} />
+                      </button>
+                    </div>
                   </div>
 
                   <div className="mt-6 flex justify-between">
@@ -266,20 +314,38 @@ function App() {
                   <div className="flex justify-between">
                     <h3>{card.text}</h3>
 
-                    <button
-                      onClick={() =>
-                        dispatch({
-                          type: "DELETE_CARD",
-                          payload: {
-                            column: "done",
-                            cardId: card.id,
-                          },
-                        })
-                      }
-                      className="opacity-0 group-hover:opacity-100 h-8 w-8 rounded-lg bg-red-500 hover:bg-red-600 transition"
-                    >
-                      ✕
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() =>
+                          dispatch({
+                            type: "MOVE_CARD",
+                            payload: {
+                              cardId: card.id,
+                              fromColumn: "done",
+                              toColumn: "todo",
+                            },
+                          })
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500 text-white transition hover:bg-sky-600"
+                      >
+                        <ArrowRight size={16} strokeWidth={2.5} />
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          dispatch({
+                            type: "DELETE_CARD",
+                            payload: {
+                              column: "done",
+                              cardId: card.id,
+                            },
+                          })
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-500 text-white transition hover:bg-red-600"
+                      >
+                        <Trash2 size={16} strokeWidth={2.5} />
+                      </button>
+                    </div>
                   </div>
 
                   <div className="mt-6 flex justify-between">
